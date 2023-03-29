@@ -51,6 +51,7 @@ gene.*.tex
 ref_data/
 data/
 sim_data/
+sim_data2/
 real_data/
 ref-data/
 sim-data/

@@ -1,4 +1,5 @@
 from sys import argv
+import sys
 
 # argv[1] = input
 # argv[2] = filter gtf
@@ -6,12 +7,14 @@ from sys import argv
 
 feature = argv[3]
 filter_set = set()
+line_num = 0
 with open(argv[2], 'r') as f:
     for line in f.readlines():
         line = line.strip()
         if line.startswith("#") or line == "":
             continue
         else:
+            line_num += 1
             attr = line.split("\t")[8]
             for i in attr.split(";"):
                 if i == '':
@@ -25,6 +28,8 @@ with open(argv[2], 'r') as f:
                 if feature_type == feature:
                     filter_set.add(name)
 
+print(len(filter_set), "distinct", feature, "identified from", argv[2], file=sys.stderr)
+print(line_num, "non-header lines found from", argv[2], file=sys.stderr)
 
 with open(argv[1], 'r') as f:
     for line in f.readlines():
@@ -33,6 +38,9 @@ with open(argv[1], 'r') as f:
             print(line)
         else:
             assert line != ""
+            ft = line.split("\t")[2]
+            if ft != "gene" and ft != "transcript" and ft != "exon":
+                continue
             attr = line.split("\t")[8]
             for i in attr.split(";"):
                 if i == '':

@@ -1,3 +1,4 @@
+# keep lines in file 1 by file2's attribute (given by argv[3])
 from sys import argv
 import sys
 

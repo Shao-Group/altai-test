@@ -1,9 +1,10 @@
+# parse a gtf file and count how many times an attribute (in col 9) is present, w.o considering feature (col 3)
+
 from sys import argv
 import sys
 
 # argv[1] = input
-# argv[2] = filter gtf
-# argv[3] = feature
+# argv[2] = feature/attr
 
 feature = argv[2]
 filter_set = dict()

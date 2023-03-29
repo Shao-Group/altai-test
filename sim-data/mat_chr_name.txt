@@ -1,0 +1,7 @@
+1	chrX
+2	chr2L
+3	chr2R
+4	chr3L
+5	chr3R
+6	chr4
+7	chrY

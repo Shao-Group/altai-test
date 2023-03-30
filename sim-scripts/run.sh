@@ -28,6 +28,14 @@ sh ../sim-scripts/fna_pat.sh ../ref-data/GCA_000001215.4/GCA_000001215.4_Release
 # make maternal (alt) genome
 # conda activate gatk4
 sh ../sim-scripts/fna_mat.sh ../ref-data/GCA_000001215.4/GCA_000001215.4_Release_6_plus_ISO1_MT_genomic.fna  ../ref-data/GCA_000001215.4/chr_name_fna.txt dm6.intersect.selected.gt.vcf
+
 # make transcriptome
+# conda activate simulation
 sh ../sim-scripts/fna_tx.sh 
+
+################### make reads for diploid transcriptome #######################################################################
+
+
+
+
 

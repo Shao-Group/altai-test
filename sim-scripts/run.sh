@@ -34,8 +34,10 @@ sh ../sim-scripts/fna_mat.sh ../ref-data/GCA_000001215.4/GCA_000001215.4_Release
 sh ../sim-scripts/fna_tx.sh 
 
 ################### make reads for diploid transcriptome #######################################################################
+samtools faidx dm6_maternal_tx.fa 
+cut -f 1-2 dm6_maternal_tx.fa.fai > tx.length
+rm dm6_maternal_tx.fa.fai
 
-
-
+python ../sim-scripts/make_abundance.py dm6.w.var.gtf tx.length dm6_di-txm.exp_sim.tsv
 
 

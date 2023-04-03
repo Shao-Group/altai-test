@@ -1,3 +1,5 @@
+## simulate diploid genome, di-transcriptome, di-tx expression, and RNA-seq reads of di-tx expression
+
 cd sim_data
 mkdir tmp
 
@@ -34,10 +36,30 @@ sh ../sim-scripts/fna_mat.sh ../ref-data/GCA_000001215.4/GCA_000001215.4_Release
 sh ../sim-scripts/fna_tx.sh 
 
 ################### make reads for diploid transcriptome #######################################################################
+# make expression for both allele of transcriptomes
 samtools faidx dm6_maternal_tx.fa 
 cut -f 1-2 dm6_maternal_tx.fa.fai > tx.length
 rm dm6_maternal_tx.fa.fai
-
-python ../sim-scripts/make_abundance.py dm6.w.var.gtf tx.length dm6_di-txm.exp_sim.tsv
-
+# make reads
+num_tx=$(cat dm6_maternal_tx.fa | grep -c "^>") # actually not used
+for j in 1 2 3 4 
+do
+        python ../sim-scripts/make_abundance.py dm6.w.var.gtf tx.length dm6_di-txm.exp_sim.$j.tsv
+	python ../sim-scripts/make_reads_no0.py dm6_diploid_tx.fa dm6_di-txm.exp_sim.$j.tsv "tmp".dm6.polyester.$j
+	for num_reads in 3e6 25e6 60e6
+	do
+		output=simdm6_exp"$j"_reads"$num_reads"
+		mkdir $output
+		cp dm6_di-txm.exp_sim.$j.tsv $output
+		cp "tmp".dm6.polyester.$j".txabd.tsv" "tmp".dm6.polyester.$j".no0tx.fa"  $output
+		Rscript ../sim-scripts/make_reads.R  \
+			$output/"tmp".dm6.polyester.$j".no0tx.fa" \
+			$num_tx \
+		       	$num_reads $output/"tmp".dm6.polyester.$j".txabd.tsv" \
+		       	$output \
+			1> $output/polye.log 2> $output/polye.err
+	done
+	mv dm6_di-txm.exp_sim.$j.tsv tmp
+	mv "tmp".dm6.polyester.$j".txabd.tsv" "tmp".dm6.polyester.$j".no0tx.fa" tmp
+done
 

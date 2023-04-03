@@ -228,7 +228,7 @@ for gene, txs in gene_to_tx.items():
 
 # write output
 with open(output, 'w') as f:
-    outheader = ["#tx_name", "gene_name", "tx_len", "tx-exp", "tx-mate-exp", "tx%ASE", "gene-exp", "gene-mate-exp", "gene%ASE"]
+    outheader = ["#tx_name", "gene_name", "tx_len", "tx_exp", "txmate_exp", "txASE", "gene_exp", "genemate_exp", "geneASE"]
     f.write('\t'.join(outheader) + '\n')
     # write pat allele
     for tx in tx_list:

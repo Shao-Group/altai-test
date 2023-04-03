@@ -57,5 +57,8 @@ ref-data/
 sim-data/
 real-data/
 paper/
-
+sim-results/
+sim-result/
+real-result/
+real-results/
 .Rhistory

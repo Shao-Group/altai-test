@@ -5,7 +5,7 @@ file2=$3
 vcf=$4
 out_prefix=$5
 
-# tar does not consider strandness when mapping
+# star does not consider strandness when mapping
 # https://github.com/alexdobin/STAR/issues/818
 
 # STAR with vcf/wasp attributes
@@ -23,7 +23,10 @@ STAR --runThreadN 8 \
  --readFilesIn $2 $3 
 
 samtools sort -@ 32 $5."starW.Aligned.out.bam" > $5."starW.Aligned.sortedByCoord.out.bam"
-rm $5."starW.Aligned.out.bam"
+if [-f $5."starW.Aligned.sortedByCoord.out.bam"]; then
+	rm $5."starW.Aligned.out.bam"
+fi
+
 
 # STAR without vcf/wasp attributes
 STAR --runThreadN 8 \
@@ -36,5 +39,7 @@ STAR --runThreadN 8 \
  --readFilesIn $2 $3
 
 samtools sort -@ 32 $5."starO.Aligned.out.bam" > $5."starO.Aligned.sortedByCoord.out.bam"
-rm $5."starO.Aligned.out.bam"
+if [-f $5."starO.Aligned.sortedByCoord.out.bam"]; then
+	rm $5."starO.Aligned.out.bam"
+fi
 

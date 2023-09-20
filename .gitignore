@@ -59,6 +59,11 @@ real-data/
 paper/
 sim-results/
 sim-result/
+sim-results/
 real-result/
 real-results/
 .Rhistory
+results
+result
+programs/
+README.md

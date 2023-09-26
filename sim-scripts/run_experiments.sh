@@ -1,29 +1,27 @@
-# run experiments for altai and other tool
-cd sim_data
-vcf="dm6.intersect.selected.gt.vcf"
-genome="dm6_paternal_genome.fa"
+#!/usr/bin/sh
+cd sim-results
 
-################################ preparations: index and alignment ###############
-# star index, align, sort
-mkdir index-star
-sh ../sim-scripts/do_index.sh $genome index-star
+################ run assembly, get allelic gtf ground truth, eval with gffcompare #############
+vcf=../sim-data/dm6.intersect.selected.gt.sorted.vcf
+genome=../sim-data/dm6_paternal_genome.fa
 
-for i in $(ls | grep sim)
+for i in $(ls ../sim-data/ | grep sim)
 do
-	cd $i
-	echo "current dir is" $i ":="  $(pwd)
-	
-	mkdir aligned_star
+	echo current dataset is $i
 	for sample_id in sample_01 sample_02
 	do
-		output_prefix="aligned_star/"$sample_id
-		echo "start to align sample" $sample_id
-		sh ../../sim-scripts/do_star.sh ../index-star $sample_id"_1.fasta" $sample_id"_2.fasta" ../$vcf $output_prefix
-		echo "finished align sample" $sample_id
-	done
+		bam=../sim-data/$i/aligned_star/$sample_id.starW.Aligned.sortedByCoord.out.bam
+		left=../sim-data/$i/"$sample_id"_1.fasta
+		right=../sim-data/$i/"$sample_id"_2.fasta
 	
-	cd ..
-done
-
+	
+		merge_gtf="../sim-data/dm6.w.var.gtf"            ## should use a specific gtf as simulation may have some tx being 0-abd in both alleles
+		pat_gtf=""
+		mat_gtf=""
+        	library="second"
+		prefix=$i.$sample_id
+		sh do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+	done
+done	
 
 

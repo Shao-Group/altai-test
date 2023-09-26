@@ -59,8 +59,13 @@ real-data/
 paper/
 sim-results/
 sim-result/
+sim-results/
 real-result/
 real-results/
 .Rhistory
 init.sh
 programs/
+results
+result
+programs/
+README.md

@@ -20,7 +20,7 @@ do
 		mat_gtf=""
         	library="second"
 		prefix=$i.$sample_id
-		sh do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+		sh ../sim-scripts/do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf &
 	done
 done	
 

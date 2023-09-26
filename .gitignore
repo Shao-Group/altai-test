@@ -62,3 +62,5 @@ sim-result/
 real-result/
 real-results/
 .Rhistory
+init.sh
+programs/

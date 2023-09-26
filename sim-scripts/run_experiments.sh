@@ -1,4 +1,5 @@
 # run experiments for altai and other tool
+cd sim_data
 vcf="dm6.intersect.selected.gt.vcf"
 genome="dm6_paternal_genome.fa"
 

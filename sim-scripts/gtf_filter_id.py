@@ -1,4 +1,4 @@
-# keep lines in file 1 by file2's attribute (given by argv[3])
+# keep lines in file 1 by file2's ids (given by argv[3]: transcript_id or gene_id)
 from sys import argv
 import sys
 

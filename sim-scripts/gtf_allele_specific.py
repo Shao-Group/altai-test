@@ -93,6 +93,7 @@ def get_gtf_lines_by_id(gtf, which, filter_set):
                     if name in filter_set:
                         out_lines.append(line)
                     break
+    return out_lines
 
 
 def write_lines(gtf_lines, outname):

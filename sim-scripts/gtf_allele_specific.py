@@ -80,18 +80,24 @@ def get_gtf_lines_by_id(gtf, which, filter_set):
             ft = line.split("\t")[2]
             if ft != "gene" and ft != "transcript" and ft != "exon":
                 continue
+
             attr = line.split("\t")[8]
             for i in attr.split(";"):
                 if i == '':
                     continue
                 x = i.strip().split(" ", 1)
-                #print(line, i, x)
                 if len(x) != 2:
                     continue
                 feature_type, name = x
-                if feature_type == which:
-                    if name in filter_set:
-                        out_lines.append(line)
+                if feature_type != which:
+                    continue
+                # remove double quotes
+                if name.startswith('\"'):
+                    name = name[1:]
+                if name.endswith('\"'):
+                    name = name[:-1]
+                if name in filter_set:
+                    out_lines.append(line)
                     break
     return out_lines
 

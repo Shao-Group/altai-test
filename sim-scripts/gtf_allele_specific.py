@@ -108,8 +108,8 @@ def write_lines(gtf_lines, outname):
 
 
 if __name__ == "__main__":
-    assert(len(argv) == 3)
-    gtf, tsv = argv[1:]
+    assert(len(argv) == 4)
+    gtf, tsv, outname = argv[1:]
     if not gtf.endswith(".gtf") or not tsv.endswith(".tsv"):
         print("Usage: python gtf_allele_specific.py gtf_file allele_transcripts_expression_tsv")
     assert(gtf.endswith(".gtf"))
@@ -124,13 +124,12 @@ if __name__ == "__main__":
     both_tx_lines   = get_gtf_lines_by_id(gtf, "transcript_id", set(as1tx).intersection(set(as2tx)))
     either_tx_lines = get_gtf_lines_by_id(gtf, "transcript_id", set(as1tx).union(set(as2tx)))
 
-    gtf_base = os.path.basename(gtf)
-    write_lines(as1tx_lines,        gtf_base[:-4] + ".allele1.gtf")
-    write_lines(as2tx_lines,        gtf_base[:-4] + ".allele2.gtf")
-    write_lines(as1tx_sp_lines,     gtf_base[:-4] + ".allele1spec.gtf")
-    write_lines(as2tx_sp_lines,     gtf_base[:-4] + ".allele2spec.gtf")
-    write_lines(both_tx_lines,      gtf_base[:-4] + ".nonspec.gtf")
-    write_lines(either_tx_lines,    gtf_base[:-4] + ".merged.gtf")
+    write_lines(as1tx_lines,        outname + ".allele1.gtf")
+    write_lines(as2tx_lines,        outname + ".allele2.gtf")
+    write_lines(as1tx_sp_lines,     outname + ".allele1spec.gtf")
+    write_lines(as2tx_sp_lines,     outname + ".allele2spec.gtf")
+    write_lines(both_tx_lines,      outname + ".nonspec.gtf")
+    write_lines(either_tx_lines,    outname + ".merged.gtf")
 
     # as1gene, as2gene = non_zero_genes(tsv)
     # as1gene_lines  = get_gtf_lines_by_id(gtf, "gene_id", as1gene)

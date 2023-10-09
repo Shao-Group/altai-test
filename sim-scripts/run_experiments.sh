@@ -1,4 +1,10 @@
 #!/usr/bin/sh
+
+must_make_as_gtf=false
+must_run_altai=true
+must_run_asmb_quant=false
+must_run_asmb_denovo=false
+
 cd sim-results
 
 ################ run assembly, get allelic gtf ground truth, eval with gffcompare #############
@@ -12,15 +18,15 @@ do
 	
 	################ get allelic gtf ground truth #############
 	general_gtf="../sim-data/dm6.w.var.gtf"
-	tsv="../sim-data/simdm6_exp1_reads3e6/dm6_di-txm.exp_sim.*.tsv"
-	out_gtf="sample_spec"
+	tsv="../sim-data/$i/dm6_di-txm.exp_sim.*.tsv"
+	out_gtf="../sim-data/$i/sample_spec"
 	pat_gtf=$out_gtf".allele1.gtf"
 	mat_gtf=$out_gtf".allele2.gtf"
 	pat_spec_gtf=$out_gtf".allele1spec.gtf"
 	mat_spec_gtf=$out_gtf".allele2spec.gtf"
 	merge_gtf=$out_gtf".merged.gtf"
 	nonspec_gtf=$out_gtf".nonspec.gtf"
-	if [ ! -f $pat_gtf ] || [ ! -f $mat_gtf ] || [ ! -f $pat_spec_gtf ] || [ ! -f $mat_spec_gtf ] || [ ! -f $merge_gtf ] || [ ! -f $nonspec_gtf ] 
+	if [ "$must_make_as_gtf" == true ] ||  [ ! -f $pat_gtf ] || [ ! -f $mat_gtf ] || [ ! -f $pat_spec_gtf ] || [ ! -f $mat_spec_gtf ] || [ ! -f $merge_gtf ] || [ ! -f $nonspec_gtf ] 
 	then
 		python ../sim-scripts/gtf_allele_specific.py  $general_gtf $tsv $out_gtf
 	fi
@@ -31,12 +37,22 @@ do
 		bam=../sim-data/$i/aligned_star/$sample_id.starW.Aligned.sortedByCoord.out.bam
 		left=../sim-data/$i/"$sample_id"_1.fasta
 		right=../sim-data/$i/"$sample_id"_2.fasta	
-        library="second"
+		library="second"
 		library_spades="rf"
 		prefix=$i.$sample_id
-		sh ../sim-scripts/do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
-		sh ../sim-scripts/do_assembly_quant.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
-		sh ../sim-scripts/do_assembly_denovo.sh $left $right $prefix $library_spades		
+		
+		if [ "$must_run_altai" = true ]
+		then
+			sh ../sim-scripts/do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+		fi
+		if [ "$must_run_asmb_quant" = true ]
+		then
+			sh ../sim-scripts/do_assembly_quant.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+		fi
+		if [ "$must_run_asmb_denovo" = true ]
+		then	
+			sh ../sim-scripts/do_assembly_denovo.sh $left $right $prefix $library_spades		
+		fi
 	done
 done	
 

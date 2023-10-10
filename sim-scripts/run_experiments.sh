@@ -8,8 +8,10 @@ must_run_asmb_denovo=false
 cd sim-results
 
 ################ run assembly, get allelic gtf ground truth, eval with gffcompare #############
-vcf=../sim-data/dm6.intersect.selected.gt.sorted.vcf
-genome=../sim-data/dm6_paternal_genome.fa
+vcf="../sim-data/dm6.intersect.selected.gt.sorted.vcf"
+genome="../sim-data/dm6_paternal_genome.fa"
+pat_genome="../sim-data/dm6_paternal_genome.fa"
+mat_genome="../sim-data/dm6_maternal_genome.fa"
 
 for i in $(ls ../sim-data/ | grep sim)
 do
@@ -45,11 +47,11 @@ do
 		
 		if [ "$must_run_altai" = true ]
 		then
-			sh ../sim-scripts/do_altai.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+			sh ../sim-scripts/do_altai.sh $bam $vcf $genome $prefix $library 
 		fi
 		if [ "$must_run_asmb_quant" = true ]
 		then
-			sh ../sim-scripts/do_assembly_quant.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+			sh ../sim-scripts/do_assembly_quant.sh $bam $vcf $genome $prefix $library $pat_genome $mat_genome  
 		fi
 		if [ "$must_run_asmb_denovo" = true ]
 		then	

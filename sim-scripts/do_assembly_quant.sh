@@ -35,10 +35,10 @@ then
 fi
 
 # make merged-alleles transcripts fasta
-gffread -w assembly_quant/scallop2.$4.allele1.fa -g $pat_genome scallop2.$4.gtf
-gffread -w assembly_quant/scallop2.$4.allele2.fa -g $mat_genome scallop2.$4.gtf
-sed -i 's/^>/>pat_/' assembly_quant/scallop2.$4.allele1.fa
-sed -i 's/^>/>mat_/' assembly_quant/scallop2.$4.allele2.fa
+gffread -w assembly_quant/scallop2.$4.pat.fa -g $pat_genome scallop2.$4.gtf
+gffread -w assembly_quant/scallop2.$4.mat.fa -g $mat_genome scallop2.$4.gtf
+sed -i 's/^>/>pat_/' assembly_quant/scallop2.$4.pat.fa
+sed -i 's/^>/>mat_/' assembly_quant/scallop2.$4.mat.fa
 cat assembly_quant/scallop2.$4.allele1.fa assembly_quant/scallop2.$4.allele2.fa > assembly_quant/scallop2.$4.merged.fa
 
 

@@ -43,7 +43,7 @@ do
 		right=../sim-data/$i/"$sample_id"_2.fasta	
 		library="second"
 		library_spades="rf"
-		library_kallisto="--rf-stranded"
+		library_kallisto="--fr-stranded" # note kallisto lib type is different from altai/scallop
 		prefix=$i.$sample_id
 		
 		if [ "$must_run_altai" = true ]

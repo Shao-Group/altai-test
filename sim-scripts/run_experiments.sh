@@ -43,6 +43,7 @@ do
 		right=../sim-data/$i/"$sample_id"_2.fasta	
 		library="second"
 		library_spades="rf"
+		library_kallisto="--rf-stranded"
 		prefix=$i.$sample_id
 		
 		if [ "$must_run_altai" = true ]
@@ -51,7 +52,7 @@ do
 		fi
 		if [ "$must_run_asmb_quant" = true ]
 		then
-			sh ../sim-scripts/do_assembly_quant.sh $bam $vcf $genome $prefix $library $pat_genome $mat_genome  
+			sh ../sim-scripts/do_assembly_quant.sh $bam $left $right $prefix $library $pat_genome $mat_genome $library_kallisto
 		fi
 		if [ "$must_run_asmb_denovo" = true ]
 		then	

@@ -39,11 +39,11 @@ gffread -w assembly_quant/scallop2.$4.pat.fa -g $pat_genome scallop2.$4.gtf
 gffread -w assembly_quant/scallop2.$4.mat.fa -g $mat_genome scallop2.$4.gtf
 sed -i 's/^>/>pat_/' assembly_quant/scallop2.$4.pat.fa
 sed -i 's/^>/>mat_/' assembly_quant/scallop2.$4.mat.fa
-cat assembly_quant/scallop2.$4.allele1.fa assembly_quant/scallop2.$4.allele2.fa > assembly_quant/scallop2.$4.merged.fa
+cat assembly_quant/scallop2.$4.pat.fa assembly_quant/scallop2.$4.mat.fa > assembly_quant/scallop2.$4.patmat.fa
 
 
 # kallisto quant on merged sc2 outptus
-kallisto index      -i assembly_quant/scallop2.$4.index    assembly_quant/scallop2.$4.merged.fa \
+kallisto index      -i assembly_quant/scallop2.$4.index    assembly_quant/scallop2.$4.patmat.fa \
 	1> assembly_quant/kallisto_index.$4.log 2> assembly_quant/kallisto_index.$4.err
 kallisto quant -t 8 -i assembly_quant/scallop2.$4.index -o assembly_quant/scallop2.$4.quant $library_kallisto $left $right \
 	1> assembly_quant/kallisto_quant.$4.log 2> assembly_quant/kallisto_quant.$4.err

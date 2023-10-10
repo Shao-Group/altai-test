@@ -28,7 +28,11 @@ else
 	echo scallop2 assembly skipped for $1
 fi
 
-mkdir assembly_quant
+
+if [ ! -d assembly_quant ]
+then
+	mkdir assembly_quant
+fi
 
 # make merged-alleles transcripts fasta
 gffread -w assembly_quant/scallop2.$4.allele1.fa -g $pat_genome scallop2.$4.gtf
@@ -53,19 +57,19 @@ nonspec_id="assembly_quant/scallop2.$4.quant/expressed.transcripts.nonspec.id"
 merged_id="assembly_quant/scallop2.$4.quant/expressed.transcripts.merged.id"
 
 tail -n +2 assembly_quant/scallop2.$4.quant/abundance.tsv | awk '{if ($4 > 0) {print $1;}}' > assembly_quant/scallop2.$4.quant/expressed.transcripts.id
-cat assembly_quant/scallop2.$4.quant/expressed.transcripts.id | grep "^>pat_" | sed 's/^>pat_/>/' | sort > $as1_id
-cat assembly_quant/scallop2.$4.quant/expressed.transcripts.id | grep "^>mat_" | sed 's/^>mat_/>/' | sort > $as2_id
+cat assembly_quant/scallop2.$4.quant/expressed.transcripts.id | grep "^pat_" | sed 's/^pat_//' | sort > $as1_id
+cat assembly_quant/scallop2.$4.quant/expressed.transcripts.id | grep "^mat_" | sed 's/^mat_//' | sort > $as2_id
 comm -12 $as1_id $as2_id > $merged_id
 comm -13 $as1_id $as2_id > $as2_spec_id
 comm -23 $as1_id $as2_id > $as1_spec_id
 cat $as1_id $as2_id | sort | uniq > $nonspec_id
 
-gffread -T --ids $as1_id      -o scallop2.$4.allele1.gtf     scallop2.$4.gtf
-gffread -T --ids $as2_id      -o scallop2.$4.allele2.gtf     scallop2.$4.gtf
-gffread -T --ids $as1_spec_id -o scallop2.$4.allele1spec.gtf scallop2.$4.gtf
-gffread -T --ids $as2_spec_id -o scallop2.$4.allele2spec.gtf scallop2.$4.gtf
-gffread -T --ids $nonspec_id  -o scallop2.$4.nonspec.gtf     scallop2.$4.gtf
-gffread -T --ids $merged_id   -o scallop2.$4.merged.gtf      scallop2.$4.gtf
+gffread -T --ids $as1_id      -o scallop2.$4.allele1.gtf     scallop2.$4.gtf >> gffread.log
+gffread -T --ids $as2_id      -o scallop2.$4.allele2.gtf     scallop2.$4.gtf >> gffread.log
+gffread -T --ids $as1_spec_id -o scallop2.$4.allele1spec.gtf scallop2.$4.gtf >> gffread.log
+gffread -T --ids $as2_spec_id -o scallop2.$4.allele2spec.gtf scallop2.$4.gtf >> gffread.log
+gffread -T --ids $nonspec_id  -o scallop2.$4.nonspec.gtf     scallop2.$4.gtf >> gffread.log
+gffread -T --ids $merged_id   -o scallop2.$4.merged.gtf      scallop2.$4.gtf >> gffread.log
 
 
 

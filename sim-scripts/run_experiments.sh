@@ -14,7 +14,6 @@ genome=../sim-data/dm6_paternal_genome.fa
 for i in $(ls ../sim-data/ | grep sim)
 do
 	echo current dataset is $i
-	echo generate sample specific gtf files
 	
 	################ get allelic gtf ground truth #############
 	general_gtf="../sim-data/dm6.w.var.gtf"
@@ -26,9 +25,12 @@ do
 	mat_spec_gtf=$out_gtf".allele2spec.gtf"
 	merge_gtf=$out_gtf".merged.gtf"
 	nonspec_gtf=$out_gtf".nonspec.gtf"
-	if [ "$must_make_as_gtf" == true ] ||  [ ! -f $pat_gtf ] || [ ! -f $mat_gtf ] || [ ! -f $pat_spec_gtf ] || [ ! -f $mat_spec_gtf ] || [ ! -f $merge_gtf ] || [ ! -f $nonspec_gtf ] 
+	if [ "$must_make_as_gtf" = true ] ||  [ ! -f $pat_gtf ] || [ ! -f $mat_gtf ] || [ ! -f $pat_spec_gtf ] || [ ! -f $mat_spec_gtf ] || [ ! -f $merge_gtf ] || [ ! -f $nonspec_gtf ] 
 	then
+		echo generate sample specific gtf files for $i
 		python ../sim-scripts/gtf_allele_specific.py  $general_gtf $tsv $out_gtf
+	else
+		echo sample specific gtf files for $i already generated
 	fi
 
 	################ run assemblies ##########################
@@ -43,7 +45,7 @@ do
 		
 		if [ "$must_run_altai" = true ]
 		then
-			sh ../sim-scripts/do_assembly.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
+			sh ../sim-scripts/do_altai.sh $bam $vcf $genome $prefix $library $merge_gtf $pat_gtf $mat_gtf 
 		fi
 		if [ "$must_run_asmb_quant" = true ]
 		then

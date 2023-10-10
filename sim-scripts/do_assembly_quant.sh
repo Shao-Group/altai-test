@@ -17,7 +17,7 @@ mat_genome=$7
 library_kallisto=$8
 
 #################################### assembly ###########################
-if [ "$must_assemble" = true ]
+if [ "$must_assemble" = true ] || [ ! -f scallop2.$4.gtf ]
 then
 	scallop2 -i $bam \
 		 -o scallop2.$4.gtf \

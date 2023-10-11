@@ -58,6 +58,10 @@ do
 		then	
 			sh ../sim-scripts/do_assembly_denovo.sh $left $right $prefix $library_spades		
 		fi
+		
+		# Evaluation 
+		sh ../sim-scripts/do_gffcompare.sh $pat_gtf $mat_gtf $pat_spec_gtf $mat_spec_gtf $nonspec_gtf $merge_gtf $prefix "." "."
+
 	done
 done	
 

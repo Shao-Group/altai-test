@@ -64,7 +64,7 @@ def non_zero_transcripts(tsv):
 
 # return (allele1_trsts, allele2_trsts)
 def non_zero_genes(tsv):
-    return non_zero_col(tsv, 0, 6)
+    return non_zero_col(tsv, 1, 6)
 
 def get_gtf_lines_by_id(gtf, which, filter_set):
     assert(which == "gene_id" or which == "transcript_id")

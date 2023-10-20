@@ -36,7 +36,7 @@ do
 	fi
 
 	################ run assemblies ##########################
-	for sample_id in sample_01 sample_02
+	for sample_id in sample_01 
 	do
 		bam=../sim-data/$i/aligned_star/$sample_id.starW.Aligned.sortedByCoord.out.bam
 		left=../sim-data/$i/"$sample_id"_1.fasta

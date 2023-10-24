@@ -75,7 +75,7 @@ genome="dm6_paternal_genome.fa"
 mkdir index-star
 sh ../sim-scripts/do_index.sh $genome index-star
 
-for i in $(ls | grep sim)
+for i in $(ls | grep "^simdm6")
 do
 	cd $i
 	echo "current dir is" $i ":="  $(pwd)

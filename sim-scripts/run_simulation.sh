@@ -1,6 +1,6 @@
 ## simulate diploid genome, di-transcriptome, di-tx expression, and RNA-seq reads of di-tx expression
 
-cd sim_data
+cd sim-data
 mkdir tmp
 
 ################################# pre-process ####################################################################################

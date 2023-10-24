@@ -20,8 +20,8 @@ else:
 # output = "../sim-data/sim.diploid_tx.abundance.tsv"
 # to_print = True
 
-random.seed(1)
-
+seed1 = hash(output)
+random.seed(seed1)
 
 # read gene to tx, and tx to gene
 tx_to_gene = dict()
@@ -52,14 +52,16 @@ with open (gtf_file, 'r') as f:
             else:
                 gene_to_tx[gene].add(tx)
             if tx in tx_to_gene:
+                if tx_to_gene[tx] != gene:
+                    print(tx, gene, tx_to_gene[tx], gene_to_tx[gene])
                 assert tx_to_gene[tx] == gene
             else:
                 tx_to_gene[tx] = gene
 
 
 # pick 10% genes
-gene_pick = gene_to_tx.keys()
-randome.shuffle(gene_pick)
+gene_pick = list(gene_to_tx.keys())
+random.shuffle(gene_pick)
 gene_pick = gene_pick[: int(0.1 *len(gene_pick))]
 gene_to_tx2 = dict()
 tx_to_gene2 = dict()
@@ -87,6 +89,8 @@ with open (length_file, 'r') as f2:
     for line in f2.readlines():
         line = line.strip()
         tx, length = line.split()
+        if tx not in tx_to_gene:
+            continue
         assert tx not in tx_to_len
         tx_to_len[tx] = int(length)
         tx_list.append(tx)

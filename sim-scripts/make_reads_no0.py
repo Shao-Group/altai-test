@@ -10,6 +10,7 @@ outprefix = argv[3]
 
 outpro = open(outprefix + ".txabd.tsv", 'w')
 skip_idx = set()
+keep_name = set()
 with open(profile, 'r') as f:
     lines = f.readlines()
     for i in range(len(lines)):
@@ -25,10 +26,16 @@ with open(profile, 'r') as f:
                 skip_idx.add(idx)
             else:
                 outpro.write(line)
+                keep_name.add(line.split('\t')[0])
 outpro.close()
+
+skip_idx = set() # dont use it
+
+#print(keep_name)
 
 outfa = open(outprefix + ".no0tx.fa", 'w')
 idx_counter = -1  # increment before index check, so init -1
+tx_name = ""
 with open(fafile, 'r') as f:
     lines = f.readlines()
     for i in range(len(lines)):
@@ -38,10 +45,12 @@ with open(fafile, 'r') as f:
             outfa.write(line)
         elif line.startswith(">"):
             idx_counter += 1
-            if idx_counter not in skip_idx:
+            tx_name = line[1:].strip()
+            #print(tx_name)
+            if tx_name in keep_name:
                 outfa.write(line)
         else:
             # seq lines, idx_counter is idx of current tx
-            if idx_counter not in skip_idx:
+            if tx_name in keep_name:
                 outfa.write(line)
 outfa.close()

@@ -1,6 +1,6 @@
 ## simulate diploid genome, di-transcriptome, di-tx expression, and RNA-seq reads of di-tx expression
 
-cd sim_data
+cd sim-data
 mkdir tmp
 
 ################################# pre-process ####################################################################################
@@ -44,9 +44,9 @@ rm dm6_maternal_tx.fa.fai
 num_tx=$(cat dm6_maternal_tx.fa | grep -c "^>") # actually not used
 for j in 1 2 3 4 
 do
-        python ../sim-scripts/make_abundance.py dm6.w.var.gtf tx.length dm6_di-txm.exp_sim.$j.tsv
+        python ../sim-scripts/make_abundance0.py dm6.w.var.gtf tx.length dm6_di-txm.exp_sim.$j.tsv
 	python ../sim-scripts/make_reads_no0.py dm6_diploid_tx.fa dm6_di-txm.exp_sim.$j.tsv "tmp".dm6.polyester.$j
-	for num_reads in 3e6 25e6 60e6
+	for num_reads in 3e6 25e6 
 	do
 		output=simdm6_exp"$j"_reads"$num_reads"
 		mkdir $output
@@ -75,7 +75,7 @@ genome="dm6_paternal_genome.fa"
 mkdir index-star
 sh ../sim-scripts/do_index.sh $genome index-star
 
-for i in $(ls | grep sim)
+for i in $(ls | grep "^simhg")
 do
 	cd $i
 	echo "current dir is" $i ":="  $(pwd)

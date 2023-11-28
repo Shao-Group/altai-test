@@ -70,3 +70,10 @@ result
 programs/
 README.md
 sim-results*/
+*.gtf
+*.dot
+*.bam
+*.sam
+*.bai
+*.vcf
+*.idx
